@@ -16,12 +16,10 @@ public class Caixa {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
-    private double entrada;
+    private double valor;
 
-    private double saida;
-
-    @OneToMany
+    @ManyToOne
     private Transacao transacao;
 }

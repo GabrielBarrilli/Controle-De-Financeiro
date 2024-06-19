@@ -17,18 +17,24 @@ public class Transacao {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     private String descricao;
 
     private double valorProduto;
 
-    private double taxa = 0.05 * valorProduto;
+    private double taxa;
 
-    private double total = valorProduto + taxa;
+    private double total;
 
     private LocalDateTime dataTransacao;
 
     @ManyToOne
-    private TransacaoCategoria categoriaId;
+    private Item item;
+
+    @OneToOne
+    private TransacaoCategoria categoria;
+
+    @ManyToOne
+    private Funcionario funcionario;
 }
