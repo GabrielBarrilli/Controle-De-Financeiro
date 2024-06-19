@@ -1,0 +1,14 @@
+spring:
+  application:
+    name: FinanceiroControl
+
+  datasource:
+    username: postgres
+    password: root
+    url: jdbc:postgresql://localhost:5432/FinanceiroControl
+
+  jpa:
+    open-in-view: true
+
+    hibernate:
+      ddl-auto: none
