@@ -1,8 +1,10 @@
 package org.gabrielbarrilli.financeirocontrol.service;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.gabrielbarrilli.financeirocontrol.model.Transacao;
 import org.gabrielbarrilli.financeirocontrol.model.dto.TransacaoRequest;
 import org.gabrielbarrilli.financeirocontrol.model.dto.TransacaoResponse;
+import org.gabrielbarrilli.financeirocontrol.repository.FuncionarioRepository;
 import org.gabrielbarrilli.financeirocontrol.repository.ItemRepository;
 import org.gabrielbarrilli.financeirocontrol.repository.TransacaoCategoriaRepository;
 import org.gabrielbarrilli.financeirocontrol.repository.TransacaoRepository;
@@ -20,12 +22,14 @@ public class TransacaoService {
     private final ItemRepository itemRepository;
     private final TransacaoCategoriaRepository transacaoCategoriaRepository;
     private final CaixaService caixaService;
+    private final FuncionarioRepository funcionarioRepository;
 
-    public TransacaoService(TransacaoRepository transacaoRepository, ItemRepository itemRepository, TransacaoCategoriaRepository transacaoCategoriaRepository, CaixaService caixaService) {
+    public TransacaoService(TransacaoRepository transacaoRepository, ItemRepository itemRepository, TransacaoCategoriaRepository transacaoCategoriaRepository, CaixaService caixaService, FuncionarioRepository funcionarioRepository) {
         this.transacaoRepository = transacaoRepository;
         this.itemRepository = itemRepository;
         this.transacaoCategoriaRepository = transacaoCategoriaRepository;
         this.caixaService = caixaService;
+        this.funcionarioRepository = funcionarioRepository;
     }
 
     private TransacaoResponse transacaoResponse(Transacao transacao) {
@@ -42,7 +46,7 @@ public class TransacaoService {
     }
 
     @Transactional()
-    public Transacao salvar(Long idItem, Long categoriaId, TransacaoRequest transacaoRequest) {
+    public Transacao salvar(Long idItem, Long categoriaId, Long idFuncionario, TransacaoRequest transacaoRequest) {
         Transacao transacao = new Transacao();
 
         var item = itemRepository.findById(idItem)
@@ -50,12 +54,16 @@ public class TransacaoService {
         var categoria = transacaoCategoriaRepository.findById(categoriaId)
                         .orElseThrow(() -> new IllegalArgumentException("Categoria não encontrada"));
 
+        var funcionario = funcionarioRepository.findById(idFuncionario)
+                        .orElseThrow(() -> new EntityNotFoundException("Funcionario não encontrado"));
+
         transacao.setItem(item);
         transacao.setDescricao(transacaoRequest.descricao());
         transacao.setDataTransacao(LocalDateTime.now());
         transacao.setTaxa(item.getValor() * 0.05);
         transacao.setTotal(item.getValor() + transacao.getTaxa());
         transacao.setCategoria(categoria);
+        transacao.setFuncionario(funcionario);
 
         caixaService.create(transacao);
 

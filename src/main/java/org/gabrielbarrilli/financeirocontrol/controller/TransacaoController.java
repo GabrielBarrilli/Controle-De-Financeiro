@@ -28,7 +28,7 @@ public class TransacaoController {
 
     @ResponseStatus(CREATED)
     @PostMapping("/registrarTransacao")
-    public Transacao registrarTransacao(Long idItem, Long idCategoria, @RequestBody TransacaoRequest transacaoRequest) {
-           return transacaoService.salvar(idItem, idCategoria, transacaoRequest);
+    public Transacao registrarTransacao(Long idItem, Long idCategoria, Long idFuncionario, @RequestBody TransacaoRequest transacaoRequest) {
+           return transacaoService.salvar(idItem, idCategoria, idFuncionario, transacaoRequest);
     }
 }
