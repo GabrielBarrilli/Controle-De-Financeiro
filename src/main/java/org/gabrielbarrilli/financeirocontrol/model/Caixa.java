@@ -7,19 +7,18 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
+@Table(name = "caixa")
 @Getter
 @Setter
 @AllArgsConstructor @NoArgsConstructor
 public class Caixa {
 
-    private static double saldo;
-
     @Id
+    @Column(name = "id_caixa")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private double valor;
+    @Column(name = "saldo_caixa")
+    private Double saldo;
 
-    @ManyToOne
-    private Transacao transacao;
 }

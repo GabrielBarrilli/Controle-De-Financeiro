@@ -1,15 +1,13 @@
 package org.gabrielbarrilli.financeirocontrol.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 @Entity
+@Table(name = "item")
 @Getter
 @Setter
 @AllArgsConstructor
@@ -17,12 +15,16 @@ import lombok.Setter;
 public class Item {
 
     @Id
+    @Column(name = "id_item")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private double valor;
+    @Column(name = "valor_item")
+    private Double valor;
 
+    @Column(name = "nome_item")
     private String nome;
 
+    @Column(name = "descricao_item")
     private String descricao;
 }
