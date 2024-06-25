@@ -37,7 +37,7 @@ public class Transacao {
     @JoinColumn(name = "fk_item_transacao")
     private Item item;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "fk_categoria_transacao")
     private TransacaoCategoria categoria;
 
