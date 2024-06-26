@@ -20,11 +20,12 @@ public class CaixaService {
     @Transactional
     public void create(Transacao transacao) {
         Caixa caixa = new Caixa();
+        var saldo = caixaRepository.calcularSaldoTotal();
 
-        if (caixa.getSaldo() == null || caixa.getSaldo() <= 0) {
+        if (saldo == null || saldo <= 0) {
             caixa.setSaldo(transacao.getTotal());
         } else {
-            caixa.setSaldo(transacao.getTotal() + caixa.getSaldo());
+            caixa.setSaldo(saldo + transacao.getTotal());
         }
         caixaRepository.save(caixa);
     }
@@ -32,5 +33,10 @@ public class CaixaService {
     @Transactional(readOnly = true)
     public List<Caixa> findAll() {
         return caixaRepository.findAll();
+    }
+
+    @Transactional(readOnly = true)
+    public Caixa findSaldo() {
+        return caixaRepository.findSaldo();
     }
 }

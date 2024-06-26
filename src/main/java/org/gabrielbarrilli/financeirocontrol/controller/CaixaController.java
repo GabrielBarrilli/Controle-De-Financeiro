@@ -22,6 +22,11 @@ public class CaixaController {
     public List<Caixa> getAll() {
         return caixaService.findAll();
     }
+
+    @GetMapping("/getSaldo")
+    public Caixa getSaldo() {
+        return caixaService.findSaldo();
+    }
 }
 
 
